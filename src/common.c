@@ -1,5 +1,11 @@
+/*
+ * Author: Tran Xuan Son (Student ID: 19127321)
+ * Group: Group 16
+ * Course: CSC14120 - Parallel Programming Final Project
+ * Purpose: Common image data structures and debug visualization functions.
+ */
+
 #include "common.h"
-#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "third_party/stb_image_write.h"
 
 ImageRGB create_image_rgb(int width, int height, int channels) {

@@ -85,6 +85,10 @@ MatchList create_match_list(int capacity);
 void free_match_list(MatchList* list);
 void add_match(MatchList* list, Match m);
 
+// Image I/O functions (implemented in stb_impl.cpp)
+ImageRGB load_image(const char* filepath);
+void save_image_png(const ImageRGB* img, const char* filepath);
+
 // Helper for saving a grayscale float image to PNG for debugging
 void save_gray_png(const ImageGray* img, const char* filepath);
 void save_heatmap_png(const ImageGray* resp, const char* filepath);

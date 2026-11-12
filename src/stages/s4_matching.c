@@ -1,3 +1,10 @@
+/*
+ * Author: Tran Xuan Son (Student ID: 19127321) - Group 16
+ * Course: CSC14120 - Parallel Programming Final Project
+ * Stage 4: Feature Matching (All-Pairs Hamming Distance, Lowe's Ratio Test, Cross-Check)
+ * External Sources: David G. Lowe, "Distinctive Image Features from Scale-Invariant Keypoints", IJCV 2004.
+ */
+
 #include "s4_matching.h"
 
 // Fast popcount using built-in or 64-bit uint64 chunks

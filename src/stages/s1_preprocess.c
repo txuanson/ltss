@@ -1,3 +1,11 @@
+/*
+ * Author: Tran Xuan Son (Student ID: 19127321) - Group 16
+ * Course: CSC14120 - Parallel Programming Final Project
+ * Stage 1: Preprocessing (RGB to Grayscale & Separable 1D Gaussian Filtering)
+ * External Sources: ITU-R BT.601 standard for grayscale conversion;
+ *                   Richard Szeliski, Computer Vision (2nd Ed), Chapter 3 (Linear Filtering).
+ */
+
 #include "s1_preprocess.h"
 
 ImageGray rgb_to_grayscale(const ImageRGB* rgb) {

@@ -1,7 +1,8 @@
-CXX = g++
+# Author: Tran Xuan Son (Student ID: 19127321) - Group 16
+# CSC14120 - Parallel Programming Final Project
+
+CXX ?= g++
 CXXFLAGS = -O3 -Wall -Wextra -I. -Isrc -std=c++17 -D_CRT_SECURE_NO_WARNINGS
-CC = gcc
-CFLAGS = -O3 -Wall -Wextra -I. -Isrc -std=c11 -D_CRT_SECURE_NO_WARNINGS
 LDFLAGS = -lm
 
 SRC_C = src/common.c \
@@ -12,9 +13,11 @@ SRC_C = src/common.c \
         src/stages/s5_homography.c \
         src/stages/s6_warp_blend.c
 
-SRC_CPP = src/main.cpp
+SRC_CPP = src/stb_impl.cpp \
+          src/v0_son.cpp
 
-# Platform-specific target and commands
+MAIN_CU = src/main.cu
+
 ifeq ($(OS),Windows_NT)
     TARGET = stitch.exe
     CXXFLAGS += -static
@@ -26,8 +29,8 @@ endif
 
 all: $(TARGET)
 
-$(TARGET): $(SRC_C) $(SRC_CPP)
-	$(CXX) $(CXXFLAGS) $(SRC_C) $(SRC_CPP) -o $(TARGET) $(LDFLAGS)
+$(TARGET): $(SRC_C) $(SRC_CPP) $(MAIN_CU)
+	$(CXX) $(CXXFLAGS) $(SRC_C) $(SRC_CPP) -x c++ $(MAIN_CU) -o $(TARGET) $(LDFLAGS)
 
 clean:
 	-$(RM) $(TARGET)

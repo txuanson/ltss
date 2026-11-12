@@ -1,3 +1,10 @@
+/*
+ * Author: Tran Xuan Son (Student ID: 19127321) - Group 16
+ * Course: CSC14120 - Parallel Programming Final Project
+ * Stage 6: Warping & Blending (Inverse Homography, Bilinear Interpolation, Distance Feathering Blend)
+ * External Sources: Matthew Brown & David G. Lowe, "Automatic Panoramic Image Stitching", IJCV 2007.
+ */
+
 #include "s6_warp_blend.h"
 
 static void invert_homography(const Homography* H, double H_inv[3][3]) {

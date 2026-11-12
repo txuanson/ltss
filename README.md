@@ -11,9 +11,13 @@ A purely algorithmic, synchronous implementation of the 6-stage panorama image s
 
 ```text
 ltss/
-├── src/                           # Pure C/C++ sequential pipeline source
-│   ├── common.h / common.c        # Image structures, keypoints, memory helpers
-│   ├── main.cpp                   # CLI harness, Section 4.1 & 4.2 benchmarking
+├── src/                           # Pure C/C++/CUDA source files
+│   ├── common.h / common.c        # Core image structures & debug visualization
+│   ├── cuda_utils.cuh             # CUDA error checking & memory utilities (V1/V2)
+│   ├── versions.h                 # Unified pipeline interface for V0, V1, V2
+│   ├── main.cu                    # CLI harness, Section 4.1 & 4.2 benchmarking
+│   ├── stb_impl.cpp               # STB image loading and saving implementation
+│   ├── v0_son.cpp                 # Sequential V0 reference implementation
 │   ├── stages/
 │   │   ├── s1_preprocess.h / .c   # Grayscale & separable Gaussian filter
 │   │   ├── s2_keypoints.h / .c    # Sobel gradients, Harris, NMS, Top-K
@@ -29,8 +33,8 @@ ltss/
 │   └── input_resized/             # 16:9 benchmark sets (small, medium, large)
 ├── scripts/
 │   └── prepare_dataset.py         # 16:9 center-crop and resizer tool
-├── Makefile                       # Compilation shortcut
-└── report.ipynb                   # Interactive Jupyter Notebook report (Colab ready)
+├── Makefile                       # Cross-platform compilation
+└── Group16_Midterm.ipynb          # Midterm report notebook (Colab ready)
 ```
 
 ---

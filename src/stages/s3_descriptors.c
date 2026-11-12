@@ -1,3 +1,11 @@
+/*
+ * Author: Tran Xuan Son (Student ID: 19127321) - Group 16
+ * Course: CSC14120 - Parallel Programming Final Project
+ * Stage 3: Feature Description (Intensity Centroid Orientation & Steered BRIEF 256-bit)
+ * External Sources: Ethan Rublee et al., "ORB: An efficient alternative to SIFT or SURF", ICCV 2011;
+ *                   Michael Calonder et al., "BRIEF", ECCV 2010.
+ */
+
 #include "s3_descriptors.h"
 
 // Box-Muller transform for pseudo-random Gaussian sampling

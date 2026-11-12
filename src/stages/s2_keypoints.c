@@ -1,3 +1,10 @@
+/*
+ * Author: Tran Xuan Son (Student ID: 19127321) - Group 16
+ * Course: CSC14120 - Parallel Programming Final Project
+ * Stage 2: Keypoint Detection (Sobel Gradients, Harris Corner Response, 7x7 NMS, Top-K)
+ * External Sources: C. Harris and M. Stephens, "A Combined Corner and Edge Detector", 1988.
+ */
+
 #include "s2_keypoints.h"
 #include "s1_preprocess.h"
 

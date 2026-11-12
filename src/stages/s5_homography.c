@@ -1,3 +1,11 @@
+/*
+ * Author: Tran Xuan Son (Student ID: 19127321) - Group 16
+ * Course: CSC14120 - Parallel Programming Final Project
+ * Stage 5: Homography Estimation (Hartley Normalization, 4-Point DLT, RANSAC Model Fitting)
+ * External Sources: Richard Hartley, "In Defense of the Eight-Point Algorithm", TPAMI 1997;
+ *                   Martin A. Fischler & Robert C. Bolles, "RANSAC", CACM 1981.
+ */
+
 #include "s5_homography.h"
 
 // Hartley coordinate normalization
