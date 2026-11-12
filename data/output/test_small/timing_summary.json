@@ -1,0 +1,53 @@
+{
+  "config": {
+    "left_image_path": "data/input/1.jpg",
+    "right_image_path": "data/input/2.jpg",
+    "output_image_path": "data/output/panorama.png",
+    "output_dir": "data/output/test_small",
+    "save_intermediate": true,
+    "version": 0,
+    "runs": 1,
+    "stage": "4",
+    "seed": 42,
+    "blur_method": "gaussian_sep",
+    "gaussian_sigma": 1.4,
+    "gaussian_kernel_size": 5,
+    "detector": "harris",
+    "harris_k": 0.04,
+    "structure_tensor_sigma": 1.5,
+    "structure_tensor_window": 5,
+    "fast_threshold": 20.0,
+    "fast_n": 9,
+    "nms_window": 7,
+    "border_margin": 16,
+    "max_keypoints": 1500,
+    "response_threshold_rel": 0.01,
+    "descriptor": "orb",
+    "patch_size": 31,
+    "descriptor_bits": 256,
+    "matcher_distance": "auto",
+    "ratio_thresh": 0.8,
+    "cross_check": true,
+    "ransac_iterations": 2000,
+    "ransac_threshold": 3.5,
+    "ransac_confidence": 0.995,
+    "refine_with_inliers": true,
+    "interpolation": "bilinear",
+    "blend_mode": "feathering",
+    "multiband_levels": 3
+  },
+  "timing_summary": {
+    "Stage 4: Matching": {
+      "mean_ms": 870.6321000354365,
+      "min_ms": 870.6321000354365,
+      "max_ms": 870.6321000354365,
+      "runs": 1
+    },
+    "total_ms": {
+      "mean_ms": 870.6321000354365,
+      "min_ms": 870.6321000354365,
+      "max_ms": 870.6321000354365,
+      "runs": 1
+    }
+  }
+}

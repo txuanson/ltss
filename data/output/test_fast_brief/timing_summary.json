@@ -1,0 +1,83 @@
+{
+  "config": {
+    "left_image_path": "data/input_resized/small/1.jpg",
+    "right_image_path": "data/input_resized/small/2.jpg",
+    "output_image_path": "data/output/panorama.png",
+    "output_dir": "data/output/test_fast_brief",
+    "save_intermediate": true,
+    "version": 0,
+    "runs": 1,
+    "stage": "all",
+    "seed": 42,
+    "blur_method": "gaussian_sep",
+    "gaussian_sigma": 1.4,
+    "gaussian_kernel_size": 5,
+    "detector": "fast",
+    "harris_k": 0.04,
+    "structure_tensor_sigma": 1.5,
+    "structure_tensor_window": 5,
+    "fast_threshold": 20.0,
+    "fast_n": 9,
+    "nms_window": 7,
+    "border_margin": 16,
+    "max_keypoints": 1500,
+    "response_threshold_rel": 0.01,
+    "descriptor": "brief",
+    "patch_size": 31,
+    "descriptor_bits": 256,
+    "matcher_distance": "auto",
+    "ratio_thresh": 0.75,
+    "cross_check": true,
+    "ransac_iterations": 2000,
+    "ransac_threshold": 3.5,
+    "ransac_confidence": 0.995,
+    "refine_with_inliers": true,
+    "interpolation": "bilinear",
+    "blend_mode": "feathering",
+    "multiband_levels": 3
+  },
+  "timing_summary": {
+    "Stage 1: Preprocessing": {
+      "mean_ms": 909.8277000011876,
+      "min_ms": 909.8277000011876,
+      "max_ms": 909.8277000011876,
+      "runs": 1
+    },
+    "Stage 2: Keypoint Detection": {
+      "mean_ms": 752.6759999454953,
+      "min_ms": 752.6759999454953,
+      "max_ms": 752.6759999454953,
+      "runs": 1
+    },
+    "Stage 3: Description": {
+      "mean_ms": 195.11169998440892,
+      "min_ms": 195.11169998440892,
+      "max_ms": 195.11169998440892,
+      "runs": 1
+    },
+    "Stage 4: Matching": {
+      "mean_ms": 372.8220000048168,
+      "min_ms": 372.8220000048168,
+      "max_ms": 372.8220000048168,
+      "runs": 1
+    },
+    "Stage 5: Homography (RANSAC)": {
+      "mean_ms": 366.3494000211358,
+      "min_ms": 366.3494000211358,
+      "max_ms": 366.3494000211358,
+      "runs": 1
+    },
+    "Stage 6: Warping & Blending": {
+      "mean_ms": 1189.5298000308685,
+      "min_ms": 1189.5298000308685,
+      "max_ms": 1189.5298000308685,
+      "runs": 1
+    },
+    "total_ms": {
+      "mean_ms": 3786.316599987913,
+      "min_ms": 3786.316599987913,
+      "max_ms": 3786.316599987913,
+      "runs": 1
+    }
+  }
+}
