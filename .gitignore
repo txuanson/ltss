@@ -1,5 +1,9 @@
 data/input_resized/*
 data/output/*
+data/input/1.jpg
+data/input/2.jpg
+data/input/left.jpg
+data/input/right.jpg
 *.exe
 *.zip
 19127321/

@@ -2,6 +2,7 @@
 
 **Student**: Trần Xuân Sơn  
 **Student ID**: 19127321  
+**Group**: Group 16  
 
 A purely algorithmic, synchronous implementation of the 6-stage panorama image stitching pipeline written in standard C/C++. All algorithms are implemented from scratch using basic math and single-header image I/O with zero black-box libraries.
 
@@ -17,7 +18,7 @@ ltss/
 │   ├── versions.h                 # Unified pipeline interface for V0, V1, V2
 │   ├── main.cu                    # CLI harness, Section 4.1 & 4.2 benchmarking
 │   ├── stb_impl.cpp               # STB image loading and saving implementation
-│   ├── v0.cpp                 # Sequential V0 reference implementation
+│   ├── v0.cpp                     # Sequential V0 reference implementation
 │   ├── stages/
 │   │   ├── s1_preprocess.h / .c   # Grayscale & separable Gaussian filter
 │   │   ├── s2_keypoints.h / .c    # Sobel gradients, Harris, NMS, Top-K
@@ -29,7 +30,7 @@ ltss/
 │       ├── stb_image.h            # Single-header image loader
 │       └── stb_image_write.h      # Single-header image writer
 ├── data/
-│   ├── input/                     # Original inputs (1.jpg, 2.jpg, left.jpg, right.jpg)
+│   ├── input/                     # Original inputs (1L.jpg, 1R.jpg, 2L.jpg, 2R.jpg)
 │   └── input_resized/             # 16:9 benchmark sets (small, medium, large)
 ├── scripts/
 │   └── prepare_dataset.py         # 16:9 center-crop and resizer tool
@@ -39,15 +40,17 @@ ltss/
 
 ---
 
-## 2. Dataset Preparation
+## 2. Dataset Specification & Preparation
 
-Per Section 1.2 of the project specification, image pairs are cropped to 16:9 and resized to 3 resolutions:
-- **Small**: 1280 × 720 (fast development & debugging)
-- **Medium**: 1920 × 1080 (main benchmark)
-- **Large**: 3840 × 2160 (high-resolution scaling evaluation)
+Per Section 1.2 and 3.6 of the project specification:
+- Image pairs follow the naming convention `<no>L.jpg` (Left) and `<no>R.jpg` (Right).
+- Images are cropped to 16:9 and resized to 3 benchmark resolutions:
+  - **Small**: 1280 × 720 (fast development & debugging)
+  - **Medium**: 1920 × 1080 (main benchmark)
+  - **Large**: 3840 × 2160 (high-resolution scaling evaluation)
 
 ```bash
-python scripts/prepare_dataset.py --left data/input/1.jpg --right data/input/2.jpg --out-dir data/input_resized
+python scripts/prepare_dataset.py --left data/input/1L.jpg --right data/input/1R.jpg --out-dir data/input_resized
 ```
 
 ---
@@ -56,21 +59,21 @@ python scripts/prepare_dataset.py --left data/input/1.jpg --right data/input/2.j
 
 ### 3.1 Build Command
 ```bash
-# Using G++ directly:
-g++ -O3 -Wall -Wextra -static -I. -Isrc -std=c++17 src/common.c src/stages/*.c src/main.cpp -o stitch.exe -lm
-
-# Or using Makefile:
+# Using Makefile (cross-platform):
 make
+
+# Or using G++ directly:
+g++ -O3 -Wall -Wextra -static -I. -Isrc -std=c++17 src/common.c src/stages/*.c src/stb_impl.cpp src/v0.cpp -x c++ src/main.cu -o stitch.exe -lm
 ```
 
 ### 3.2 Specification-Compatible Execution (Section 4.1 & 4.2)
 ```bash
 # Standard run (default 5 timed runs, warmup excluded, disk I/O excluded):
-./stitch.exe data/input_resized/small/1.jpg data/input_resized/small/2.jpg data/output/c_panorama_small.png --version 0
+./stitch.exe data/input_resized/small/1L.jpg data/input_resized/small/1R.jpg data/output/c_panorama_small.png --version 0
 
 # Custom repetitions on Medium 1080p:
-./stitch.exe data/input_resized/medium/1.jpg data/input_resized/medium/2.jpg data/output/c_panorama_medium.png --version 0 --runs 5
+./stitch.exe data/input_resized/medium/1L.jpg data/input_resized/medium/1R.jpg data/output/c_panorama_medium.png --version 0 --runs 5
 
-# Run on user captured real-world pair:
-./stitch.exe data/input/left.jpg data/input/right.jpg data/output/custom_panorama.png --version 0 --runs 1
+# Run on user captured real-world pair (2L.jpg, 2R.jpg):
+./stitch.exe data/input/2L.jpg data/input/2R.jpg data/output/custom_panorama.png --version 0 --runs 1
 ```

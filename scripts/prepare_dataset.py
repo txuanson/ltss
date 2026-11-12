@@ -4,6 +4,8 @@ Crops input images to a 16:9 aspect ratio (center crop) and resizes them to:
 - Small : 1280 x 720  (Fast development and debugging)
 - Medium: 1920 x 1080 (Main benchmark for the speedup table)
 - Large : 3840 x 2160 (Shows GPU scaling)
+
+Naming convention: <no>L.jpg (Left) and <no>R.jpg (Right), e.g. 1L.jpg, 1R.jpg.
 """
 
 import argparse
@@ -43,6 +45,16 @@ def center_crop_16_9(img: Image.Image) -> Image.Image:
 
 def prepare_pair(left_path: Path, right_path: Path, out_base_dir: Path) -> None:
     """Generate Small, Medium, and Large 16:9 image pairs."""
+    if not left_path.exists():
+        # Fallback if 1L.jpg doesn't exist but 1.jpg does
+        alt = left_path.parent / (left_path.stem.replace("L", "") + ".jpg")
+        if alt.exists():
+            left_path = alt
+    if not right_path.exists():
+        alt = right_path.parent / (right_path.stem.replace("R", "") + ".jpg")
+        if alt.exists():
+            right_path = alt
+
     img_a = center_crop_16_9(Image.open(left_path).convert("RGB"))
     img_b = center_crop_16_9(Image.open(right_path).convert("RGB"))
 
@@ -51,19 +63,30 @@ def prepare_pair(left_path: Path, right_path: Path, out_base_dir: Path) -> None:
         sub_dir.mkdir(parents=True, exist_ok=True)
         res_a = img_a.resize((tw, th), Image.Resampling.LANCZOS)
         res_b = img_b.resize((tw, th), Image.Resampling.LANCZOS)
-        out_a = sub_dir / left_path.name
-        out_b = sub_dir / right_path.name
+
+        # Save with standard format (1L.jpg, 1R.jpg)
+        out_a = sub_dir / "1L.jpg"
+        out_b = sub_dir / "1R.jpg"
         res_a.save(out_a, quality=95)
         res_b.save(out_b, quality=95)
-        print(f"[{name.upper():<6}] Saved {tw}x{th} pair to {sub_dir}")
+
+        # Also save legacy aliases (1.jpg, 2.jpg) for backward compatibility
+        res_a.save(sub_dir / "1.jpg", quality=95)
+        res_b.save(sub_dir / "2.jpg", quality=95)
+
+        print(f"[{name.upper():<6}] Saved {tw}x{th} pair (1L.jpg, 1R.jpg) to {sub_dir}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Crop image pair to 16:9 and resize to Small/Medium/Large benchmark sets."
     )
-    parser.add_argument("--left", default="data/input/1.jpg", help="Left input image")
-    parser.add_argument("--right", default="data/input/2.jpg", help="Right input image")
+    # Check default paths: prefer 1L.jpg/1R.jpg, fallback to 1.jpg/2.jpg
+    def_left = "data/input/1L.jpg" if Path("data/input/1L.jpg").exists() else "data/input/1.jpg"
+    def_right = "data/input/1R.jpg" if Path("data/input/1R.jpg").exists() else "data/input/2.jpg"
+
+    parser.add_argument("--left", default=def_left, help="Left input image (default: 1L.jpg)")
+    parser.add_argument("--right", default=def_right, help="Right input image (default: 1R.jpg)")
     parser.add_argument(
         "--out-dir",
         default="data/input_resized",
