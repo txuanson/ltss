@@ -30,7 +30,7 @@ ltss/
 ├── scripts/
 │   └── prepare_dataset.py         # 16:9 center-crop and resizer tool
 ├── Makefile                       # Compilation shortcut
-└── panorama_stitching_report.ipynb# Interactive Jupyter Notebook report (Colab ready)
+└── report.ipynb                   # Interactive Jupyter Notebook report (Colab ready)
 ```
 
 ---
