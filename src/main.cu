@@ -14,6 +14,9 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 int main(int argc, char** argv) {
     if (argc < 4) {
@@ -32,6 +35,9 @@ int main(int argc, char** argv) {
             config.runs = std::max(1, std::stoi(argv[++i]));
         } else if (arg == "--output-dir" && i + 1 < argc) {
             config.out_dir = argv[++i];
+            config.save_intermediate = true;
+        } else if (arg == "--save-intermediate") {
+            config.save_intermediate = true;
         } else if (arg == "--no-intermediate") {
             config.save_intermediate = false;
         } else if (arg == "--timing-json" && i + 1 < argc) {
@@ -121,6 +127,8 @@ int main(int argc, char** argv) {
 
     // Export Timing JSON if requested
     if (!config.timing_json_path.empty()) {
+        std::error_code ec;
+        fs::create_directories(fs::path(config.timing_json_path).parent_path(), ec);
         FILE* fj = fopen(config.timing_json_path.c_str(), "w");
         if (fj) {
             fprintf(fj, "{\n");

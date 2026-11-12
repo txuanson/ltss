@@ -19,17 +19,13 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
-#include <sys/stat.h>
+#include <filesystem>
 
-#if defined(_WIN32)
-#include <direct.h>
-#define MKDIR(d) _mkdir(d)
-#else
-#define MKDIR(d) mkdir(d, 0755)
-#endif
+namespace fs = std::filesystem;
 
-static void ensure_dir_v0(const char* dir) {
-    MKDIR(dir);
+static void ensure_dir_v0(const std::string& dir) {
+    std::error_code ec;
+    fs::create_directories(dir, ec);
 }
 
 int run_v0_sequential(const ImageRGB& img_a, const ImageRGB& img_b,
@@ -41,7 +37,7 @@ int run_v0_sequential(const ImageRGB& img_a, const ImageRGB& img_b,
 
     ensure_dir_v0("data");
     ensure_dir_v0("data/output");
-    ensure_dir_v0(out_dir.c_str());
+    ensure_dir_v0(out_dir);
 
     std::string sub_s1 = out_dir + "/stage1_preprocess";
     std::string sub_s2 = out_dir + "/stage2_keypoints";
