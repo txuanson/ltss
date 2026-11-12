@@ -17,7 +17,7 @@ ltss/
 │   ├── versions.h                 # Unified pipeline interface for V0, V1, V2
 │   ├── main.cu                    # CLI harness, Section 4.1 & 4.2 benchmarking
 │   ├── stb_impl.cpp               # STB image loading and saving implementation
-│   ├── v0_son.cpp                 # Sequential V0 reference implementation
+│   ├── v0.cpp                 # Sequential V0 reference implementation
 │   ├── stages/
 │   │   ├── s1_preprocess.h / .c   # Grayscale & separable Gaussian filter
 │   │   ├── s2_keypoints.h / .c    # Sobel gradients, Harris, NMS, Top-K

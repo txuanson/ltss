@@ -14,7 +14,7 @@ SRC_C = src/common.c \
         src/stages/s6_warp_blend.c
 
 SRC_CPP = src/stb_impl.cpp \
-          src/v0_son.cpp
+          src/v0.cpp
 
 MAIN_CU = src/main.cu
 
