@@ -70,6 +70,7 @@ int main(int argc, char** argv) {
     std::string interp = "bilinear";
     std::string blend = "feathering";
     bool save_intermediate = true;
+    std::string timing_json_path = "";
 
     // Parse command line arguments
     int pos_idx = 0;
@@ -87,6 +88,8 @@ int main(int argc, char** argv) {
             blend = argv[++i];
         } else if (arg == "--no-intermediate") {
             save_intermediate = false;
+        } else if (arg == "--timing-json" && i + 1 < argc) {
+            timing_json_path = argv[++i];
         } else if (arg == "-h" || arg == "--help") {
             std::cout << "Usage: " << argv[0] << " <left_image> <right_image> <output_image> --version <0|1|2|...> [--runs N]\n";
             return 0;
@@ -366,6 +369,37 @@ int main(int argc, char** argv) {
     std::cout << "Stitched Panorama Size     : " << final_panorama.width << "x" << final_panorama.height 
               << " saved to " << out_path << "\n";
     std::cout << std::string(68, '=') << std::endl;
+
+    if (!timing_json_path.empty()) {
+        FILE* fj = fopen(timing_json_path.c_str(), "w");
+        if (fj) {
+            fprintf(fj, "{\n");
+            fprintf(fj, "  \"version\": %d,\n", version);
+            fprintf(fj, "  \"runs\": %d,\n", runs);
+            fprintf(fj, "  \"img_a_width\": %d,\n", img_a.width);
+            fprintf(fj, "  \"img_a_height\": %d,\n", img_a.height);
+            fprintf(fj, "  \"kps_a\": %d,\n", num_kps_a);
+            fprintf(fj, "  \"kps_b\": %d,\n", num_kps_b);
+            fprintf(fj, "  \"matches\": %d,\n", final_matches);
+            fprintf(fj, "  \"inliers\": %d,\n", final_inliers);
+            fprintf(fj, "  \"pano_width\": %d,\n", final_panorama.width);
+            fprintf(fj, "  \"pano_height\": %d,\n", final_panorama.height);
+            fprintf(fj, "  \"stages\": {\n");
+            fprintf(fj, "    \"stage1_preprocess\": {\"mean_ms\": %.3f, \"min_ms\": %.3f},\n", mean_t.t_stage1_ms, min_t.t_stage1_ms);
+            fprintf(fj, "    \"stage2_keypoints\": {\"mean_ms\": %.3f, \"min_ms\": %.3f},\n", mean_t.t_stage2_ms, min_t.t_stage2_ms);
+            fprintf(fj, "    \"stage3_descriptors\": {\"mean_ms\": %.3f, \"min_ms\": %.3f},\n", mean_t.t_stage3_ms, min_t.t_stage3_ms);
+            fprintf(fj, "    \"stage4_matching\": {\"mean_ms\": %.3f, \"min_ms\": %.3f},\n", mean_t.t_stage4_ms, min_t.t_stage4_ms);
+            fprintf(fj, "    \"stage5_homography\": {\"mean_ms\": %.3f, \"min_ms\": %.3f},\n", mean_t.t_stage5_ms, min_t.t_stage5_ms);
+            fprintf(fj, "    \"stage6_warp_blend\": {\"mean_ms\": %.3f, \"min_ms\": %.3f}\n", mean_t.t_stage6_ms, min_t.t_stage6_ms);
+            fprintf(fj, "  },\n");
+            fprintf(fj, "  \"total_kernel_mean_ms\": %.3f,\n", mean_t.t_kernel_total_ms);
+            fprintf(fj, "  \"total_kernel_min_ms\": %.3f,\n", min_t.t_kernel_total_ms);
+            fprintf(fj, "  \"e2e_mean_ms\": %.3f,\n", mean_t.t_e2e_ms);
+            fprintf(fj, "  \"e2e_min_ms\": %.3f\n", min_t.t_e2e_ms);
+            fprintf(fj, "}\n");
+            fclose(fj);
+        }
+    }
 
     free_image_rgb(&final_panorama);
     return 0;
